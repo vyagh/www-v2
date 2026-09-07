@@ -16,7 +16,7 @@ image: "assets/Images/GSOCxJournal.webp"
 **Project:** [AI Reflection in the Sugar Journal](https://github.com/sugarlabs/GSoC/blob/master/Ideas-2026.md#ai-reflection-in-the-sugar-journal)  
 **Mentors:** [Walter Bender](https://github.com/walterbender), [Ibiam Chihurumnaya](https://github.com/chimosky)  
 **Assisting Mentors:** [Sumit Srivastava](https://github.com/sum2it), [Diwangshu Kakoty](https://github.com/Commanderk3), [Mebin J Thattil](https://github.com/mebinthattil), [Harshit Verma](https://github.com/therealharshit), [Aman Naik](https://github.com/amannaik247)  
-**Reporting Period:** 2026-08-10 - 2026-08-16  
+**Reporting Period:** 2026-08-10 - 2026-08-24  
 
 ---
 
@@ -40,7 +40,7 @@ Every piece of work a child does in Sugar lands in the Journal, and this summer 
 
 Since week 8 the Journal work had lived on one branch, months of commits on top of each other, and nobody can review that as one thing. So I split it into 13 pull requests that stack, each built on the one before it, from [ten fixes to stock Journal bugs](https://github.com/sugarlabs/sugar/pull/1111) at the bottom, through the rebuilt list and grid views, up to [Jo's rail](https://github.com/sugarlabs/sugar/pull/1119), the [redesigned entry view](https://github.com/sugarlabs/sugar/pull/1120) and the peer pages at the top.
 
-Four more stand on their own, in Sugar's toolkit, datastore and AI server, and the whole set is listed under Resources below.
+Four more stand on their own, one in Sugar itself and one each in its toolkit, datastore and AI server, and the whole set is listed under Resources below.
 
 The settings panel is the piece that lets someone other than me switch the AI on. It's a section in Sugar's own control panel: a checkbox for the server, an address, a key, and a connection check, so a wrong address tells you right there. The checkbox only governs the server. Jo's built-in questions stay on either way, and the server side stays off until someone ticks the box:
 
@@ -65,7 +65,7 @@ Jo had been running on placeholder instructions, a few lines written to get the 
 
 It took two more rounds of instructions before I kept a version.
 
-The rule on praise changed too. Jo's instructions used to ban praise outright, but when the mentors labelled the example sheet they marked a brief warm line as fine. So the rule now is: never grade the work, never suggest improvements, and a short warm reaction to what the kid just said is allowed, as long as the question is still the substance.
+The rule on praise changed too. Jo's instructions still banned praise outright, even though the mentors' labels on the example sheet back in week 8 had marked a brief warm line as fine. So the instructions now say: never grade the work, never suggest improvements, and a short warm reaction to what the kid just said is allowed, as long as the question is still the substance.
 
 Jo can also end a conversation now. After a few exchanges it offers to wrap up:
 
@@ -85,7 +85,7 @@ With that working I built the networked half. An entry gets its own share switch
 
 ![What a friend gets: a Calculate entry opened from the Neighborhood, read-only, with one box on the right saying Ask your friend one question, where Buddy has asked "does it do fractions too?".](/assets/Developers/vyagh/gsoc26-final-friend-page.webp)
 
-The question lands in the owner's comments. The next time that entry's conversation opens, Jo says a friend left a question and offers to read it out:
+The question lands in the owner's comments. Here on a different entry, the next time the owner opens the conversation, Jo says a friend left a question and offers to read it out:
 
 ![What the owner gets: Buddy's question in the entry's comments, and in Jo's rail the line "Buddy left you a question in the comments." with a What did they ask? chip.](/assets/Developers/vyagh/gsoc26-final-peer-offer.webp)
 
@@ -114,7 +114,7 @@ In the order a kid runs into them:
 
 ![A starred line becoming the description: the child's second reply in Jo's rail is starred, and the same line sits in the description panel on the left of the same screen.](/assets/Developers/vyagh/gsoc26-final-rail-starred.webp)
 
-With no server, or on any failure, the shell asks one of its built-in questions and the screen looks the same. The three rules from [week 0](/news/all/2026-05-23-gsoc-26-vyagh-week00) haven't moved: ask, never tell; the child owns the description; no gamification. They're written into the engine's spec now. The [week 11 demo video](https://www.youtube.com/watch?v=W1SIuY696nc) shows the whole flow on real hardware.
+With no server, or on any failure, the shell asks one of its built-in questions and the screen looks the same. The three rules the mentors and I settled on early haven't moved: ask, never tell; the child owns the description; no gamification. They're written into the engine's spec now. The [week 11 demo video](https://www.youtube.com/watch?v=W1SIuY696nc) shows the whole flow on real hardware.
 
 ### The numbers
 
@@ -141,7 +141,7 @@ Per rule, Jo asks instead of telling and holds back. Where every model is weak i
 
 ![Scores by rule from the independent judge: every model near 5.5 on building on what the child just said, and the rebuild's biggest gain on staying with what the child actually said.](/assets/Developers/vyagh/gsoc26-final-where-jo-is-strong.webp)
 
-There are two limits to this. Every child line was scripted, so this says how the engine behaves, not how children respond to it. And the judge reads the conversation, not the Journal entry, so Jo's opening question gets marked down for mentioning the work, on every model equally.
+There are two limits to this. Every child line was scripted, so this says how the engine behaves, not how children respond to it. And the judge reads the conversation, not the Journal entry, so in the table Jo's opening question gets marked down for mentioning the work, on every model equally. The chart leaves those openers out for the same reason.
 
 ### What I expected
 
@@ -153,7 +153,7 @@ I'd also been waiting on upstream review before building further. The mentors to
 
 ## Key Learnings
 
-Measuring Jo turned out to be harder than building it, because every score I trusted at some point was hiding something. Per-question scores hid Jo drifting into a kid's story, and my own test examples hid that the conversation test could be fooled by a question that just echoes the child's own words back, which real classroom data showed in week 11. Each time the fix was to read whole transcripts before trusting a number, so now I do that first.
+Measuring Jo was harder than building it, because every score I trusted at some point was hiding something. Per-question scores hid Jo drifting into a kid's story, and my own test examples hid that the conversation test could be fooled by a question that just echoes the child's own words back, which real classroom data showed in week 11. Each time the fix was to read whole transcripts before trusting a number, so now I do that first.
 
 I also learned to check Sugar's side before my own. My tests were green for weeks while Sugar's runner wasn't collecting them, and the bug I spent days chasing in my own code was in Sugar's datastore.
 
